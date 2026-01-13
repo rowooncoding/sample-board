@@ -15,5 +15,5 @@ export interface Post {
 
 export interface ListPostQuery {
   limit?: number;
-  offest?: number;
+  offset?: number;
 }
