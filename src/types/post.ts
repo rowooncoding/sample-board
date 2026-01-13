@@ -13,7 +13,7 @@ export interface Post {
   updated_at: string;
 }
 
-export interface ListPostQuery {
+export interface ListPostsQuery {
   limit?: number;
   offset?: number;
 }
