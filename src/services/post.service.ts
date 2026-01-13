@@ -1,5 +1,5 @@
-import { findPostById, findPosts } from '../repositories/posts.repo';
-import { ListPostsQuery, Post } from '../types/post';
+import { createPost, findPostById, findPosts } from '../repositories/posts.repo';
+import { CreatePostBody, ListPostsQuery, Post } from '../types/post';
 
 function toInt(value: unknown): number | undefined {
   if (typeof value !== "string") return undefined;
@@ -36,4 +36,17 @@ export function parseListQuery(raw: { limit?: unknown; offset?: unknown }): List
     limit: limit === undefined ? undefined : limit,
     offset: offset === undefined ? undefined : offset,
   };
+}
+
+// 글 등록
+export async function addPost(body: CreatePostBody): Promise<Post> {
+  const title = body.title?.trim();
+  const content = body.content?.trim();
+  const author = body.author?.trim();
+
+  if (!title) throw new Error("TITLE_REQUIRED");
+  if (title.length > 200) throw new Error("TITLE_TOO_LONG");
+  if (!content) throw new Error("CONTENT_REQUIRED");
+
+  return createPost(title, content, author ? author : null);
 }
