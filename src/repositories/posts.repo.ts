@@ -27,3 +27,17 @@ export async function findPostById(id: number): Promise<Post | null> {
 
   return result.rows[0] ?? null;
 }
+
+// 글 생성
+export async function createPost(title: string, content: string, author: string | null): Promise<Post> {
+    const result = await pool.query<Post>(
+    `
+    INSERT INTO posts (title, content, author)
+    VALUES ($1, $2, $3)
+    RETURNING id, title, content, author, created_at, updated_at
+    `,
+    [title, content, author]
+  );
+
+  return result.rows[0];
+}
